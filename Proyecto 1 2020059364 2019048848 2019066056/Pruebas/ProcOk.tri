@@ -1,0 +1,9 @@
+let
+  rec
+    func x() : x~ 1 |
+    proc y() ~ put('z') end |
+    func z() : z ~ 2	
+  end
+in
+  x()
+end

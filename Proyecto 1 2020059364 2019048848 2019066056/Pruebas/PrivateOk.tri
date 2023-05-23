@@ -1,0 +1,10 @@
+let
+  private
+    var x := Char;
+    var y := Integer
+  in
+	proc z() ~ put('z') end
+  end
+in
+  z()
+end
