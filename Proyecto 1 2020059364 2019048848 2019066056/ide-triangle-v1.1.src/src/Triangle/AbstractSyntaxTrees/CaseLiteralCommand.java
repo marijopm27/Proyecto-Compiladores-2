@@ -9,7 +9,7 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
  *
  * @author Celina Madrigal Murillo
  */
-public class CaseLiteralCommand extends Command{
+public class CaseLiteralCommand extends Declaration{
     
     public CaseLiteralCommand (CharacterLiteral cAST, SourcePosition thePosition) {
         super (thePosition);

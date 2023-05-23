@@ -119,6 +119,8 @@ import Triangle.AbstractSyntaxTrees.DotDCommand;
 import Triangle.AbstractSyntaxTrees.DotDCommand2;
 import Triangle.AbstractSyntaxTrees.DotDCommandLiteral;
 import Triangle.AbstractSyntaxTrees.PrivateDeclaration;
+import Triangle.AbstractSyntaxTrees.RepeatDeclaration;
+import Triangle.AbstractSyntaxTrees.WhileEndCommand;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public final class Checker implements Visitor {
@@ -128,7 +130,25 @@ public final class Checker implements Visitor {
   // Always returns null. Does not use the given object.
     
  //Autores: Celina Madrigal Murillo, María José Porras Maroto y Gabriel Mora Estribí 
+  @Override
   public Object visitCaseLiteralCommand(CaseLiteralCommand ast, Object o) {
+    TypeDenoter cType;
+    if (ast.CL != null) {
+      cType = (TypeDenoter) ast.CL.visit(this, null);
+      idTable.enter((String) ast.CL.spelling, ast);
+      if (ast.duplicated)
+        reporter.reportError("Character literal \"%\" already used", ast.CL.spelling, ast.position);
+    } else {
+      cType = (TypeDenoter) ast.IL.visit(this, null);
+      idTable.enter((String) ast.IL.spelling, ast);
+      if (ast.duplicated)
+        reporter.reportError("Integer literal \"%\" already used", ast.IL.spelling, ast.position);
+    }
+    if (!cType.equals(StdEnvironment.integerType) && !cType.equals(StdEnvironment.charType))
+      reporter.reportError("Integer Literal or Character Literal expected here",
+          "", ast.position);
+    if (cType.equals(o) == false)
+      reporter.reportError("All literals must be the same kind", "", ast.position);
     return null;
   }
 
@@ -1045,6 +1065,15 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
 
   }
 
+  // while Exp end
+  @Override
+  public Object visitWhileEndCommand(WhileEndCommand aThis, Object o) {
+    TypeDenoter eType = (TypeDenoter) aThis.E.visit(this, null);
+    if (!eType.equals(StdEnvironment.booleanType)) {
+      reporter.reportError("Boolean expression expected here", "", aThis.E.position);
+    }
+    return null;
+  }
     @Override
     public Object visitThenCommandAST(ThenCommand aThis, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -1054,11 +1083,11 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     public Object visitDoCommandAST(DoCommand aThis, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+ // while Exp end
     @Override
     public Object visitRepeatCommand(RepeatCommand aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    aThis.WhileC.visit(this, aThis);
+    return null;    }
     
     @Override
     public Object visitRepeatTimesCommand(RepeatTimesCommand aThis, Object o) {
@@ -1072,18 +1101,35 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
 
     @Override
     public Object visitUntilCommand(UntilCommand aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); // Generated 
     }    
     
     @Override
     public Object visitDoWhileCommand(DoWhileCommand aThis, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+     // Repeat do Com while Exp end
     @Override
     public Object visitRepeatDoWhileCommand(RepeatDoWhileAST aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    RepeatDeclaration repeat = new RepeatDeclaration(dummyPos);
+        if(aThis.I != null){
+          idTable.openScope();
+          idTable.enter(aThis.I.spelling, repeat);
+          if(repeat.duplicated)
+            reporter.reportError("identifier \"%\" already declared", aThis.I.spelling, aThis.position);
+
+          aThis.C.visit(this, null);
+          idTable.closeScope();
+        }
+        else{
+          idTable.openScope();
+          idTable.enter("", repeat);
+          aThis.C.visit(this, null);
+          idTable.closeScope();
+        }
+
+        aThis.DoWhile.visit(this, null);
+    return null;    }
 
     @Override
     public Object visitVarDeclarationBecomes(VarDeclarationBecomes aThis, Object o) {

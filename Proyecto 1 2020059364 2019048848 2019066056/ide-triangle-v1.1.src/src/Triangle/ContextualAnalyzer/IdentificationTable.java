@@ -15,6 +15,7 @@
 package Triangle.ContextualAnalyzer;
 
 import Triangle.AbstractSyntaxTrees.Declaration;
+import Triangle.AbstractSyntaxTrees.RepeatDeclaration;
 
 public final class IdentificationTable {
 
@@ -65,7 +66,7 @@ public final class IdentificationTable {
     while (searching) {
       if (entry == null || entry.level < this.level)
         searching = false;
-      else if (entry.id.equals(id)) {
+      else if (entry.id.equals(id) && !"".equals(id) ) {
         present = true;
         searching = false;
        } else
@@ -103,6 +104,24 @@ public final class IdentificationTable {
     }
 
     return attr;
+  }
+  
+  public boolean searchWhile() {
+
+    IdEntry entry;
+    boolean present = false, searching = true;
+
+    entry = this.latest;
+    while (searching) {
+      if (entry == null || entry.level < this.level) // sin id, debe de estar en el mismo nivel
+        searching = false;
+      else if (entry.attr instanceof RepeatDeclaration) {
+          present = true;
+          searching = false;
+      } else entry = entry.previous;
+    }
+
+    return present;
   }
 
 }

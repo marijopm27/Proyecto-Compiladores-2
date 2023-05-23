@@ -30,6 +30,7 @@ public interface Visitor {
   public abstract Object visitRepeatTimesCommand(RepeatTimesCommand aThis, Object o);
   public abstract Object visitRepeatUntilAST(RepeatUntilAST aThis, Object o);
   public abstract Object visitUntilCommand(UntilCommand aThis, Object o);
+  public abstract Object visitWhileEndCommand(WhileEndCommand aThis, Object o);
   public abstract Object visitDoWhileCommand(DoWhileCommand aThis, Object o);
   public abstract Object visitRepeatDoWhileCommand(RepeatDoWhileAST aThis, Object o);
   public abstract Object visitDoUntilCommand(DoUntilCommand aThis, Object o);

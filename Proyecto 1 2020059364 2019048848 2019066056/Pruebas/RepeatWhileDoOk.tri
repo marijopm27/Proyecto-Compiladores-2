@@ -1,4 +1,8 @@
-repeat 
- while x < 10 
-  do x:= x + 1
+
+repeat
+  while a > b do
+
+    putint (a) ; ! debe imprimir 15, 14, 13, 12, 11
+    a := a - 1
+
 end

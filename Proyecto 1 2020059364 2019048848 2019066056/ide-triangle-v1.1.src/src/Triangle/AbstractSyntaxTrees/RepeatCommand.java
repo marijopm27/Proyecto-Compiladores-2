@@ -17,6 +17,8 @@ public class RepeatCommand extends Command{
     WhileC = While;
   }
 
+   
+
 
      public Object visit(Visitor v, Object o) {
     return v.visitRepeatCommand(this, o);

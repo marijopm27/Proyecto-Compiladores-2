@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Program>
+<RepeatDoWhileCommand>
+<DoWhileCommand>
+<BinaryExpresssion>
+<IntegerExpresssion>
+</IntegerExpresssion>
+<IntegerExpresssion>
+</IntegerExpresssion>
+<Operator value= '='>
+</Operator>
+</BinaryExpresssion>
+</DoWhileCommand>
+<DoCommand>
+<EmptyCommand>
+</EmptyCommand>
+</DoCommand>
+</RepeatDoWhileCommand>
+</Program>
