@@ -14,8 +14,10 @@ public class RepeatCommand extends Command{
     
     public RepeatCommand (WhileCommand While, SourcePosition thePosition) {
     super (thePosition);
+    I=null;
     WhileC = While;
   }
+   
 
    
 
@@ -25,5 +27,6 @@ public class RepeatCommand extends Command{
   }
      
   public WhileCommand WhileC;
+  public Identifier I;
 
 }

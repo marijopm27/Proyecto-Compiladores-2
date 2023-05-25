@@ -129,7 +129,7 @@ public final class Checker implements Visitor {
 
   // Always returns null. Does not use the given object.
     
- //Autores: Celina Madrigal Murillo, María José Porras Maroto y Gabriel Mora Estribí 
+ //Autores: Celina Madrigal Murillo, María José Porras Maroto y Gabriel Mora Estribi
   @Override
   public Object visitCaseLiteralCommand(CaseLiteralCommand ast, Object o) {
     TypeDenoter cType;
@@ -153,38 +153,77 @@ public final class Checker implements Visitor {
   }
 
 public Object visitCaseRangeCommand(CaseRangeCommand ast, Object o) {
+     if (ast.CLC != null && ast.DCL != null) {
+      ast.CLC.visit(this, o);
+      ast.DCL.visit(this, o);
+    } else if (ast.CLC != null && ast.DCL == null) {
+      ast.CLC.visit(this, o);
+    }
     return null;
   }
 
 public Object visitDotDCommand2(DotDCommand2 ast, Object obj){
-   return null;
+   if (ast.CLCT != null) {
+      ast.CLCT.visit(this, obj);
+    }
+    return null;
 }  
 public Object visitBarCommandCaseRange(BarCommandCaseRange ast, Object obj){
     return null;
 }
 
 public Object visitCaseCommand(CaseCommand ast, Object obj){
+    if (ast.CL != null) {
+      ast.CL.visit(this, obj);
+      ast.C.visit(this, null);
+    }
     return null;
 }
 
 public Object visitCasesCommand(CasesCommand ast, Object obj){
+    if (ast.MC == null) {
+      ast.SC.visit(this, obj);
+    } else {
+      ast.MC.visit(this, obj);
+    }
     return null;
 }
 //------------------------------------------------------------------------------
 public Object visitSelectCommand(SelectCommand ast, Object obj){
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    if (eType.equals(StdEnvironment.integerType) || eType.equals(StdEnvironment.charType)) {
+      idTable.openScope();
+      ast.CC.visit(this, eType);
+      idTable.closeScope();
+    } else {
+      reporter.reportError("Integer or Character Expression expected here",
+          "", ast.E.position);
+    }
+
+    if (ast.C != null) {
+      ast.C.visit(this, null);
+    }
     return null;
+
 }
 
 
 public Object visitCaseLiterals(CaseLiterals ast, Object obj){
+    if (ast.SCR != null) {
+      ast.SCR.visit(this, obj);
+    } else if (ast.MCR != null) {
+      ast.MCR.visit(this, obj);
+    }
     return null;
 }
 
 public Object visitSingleCaseRange(SingleCaseRange ast, Object obj){
+    TypeDenoter Type = (TypeDenoter) ast.CRC.visit(this,obj);
     return null;
 }
 
 public Object visitSingleThen(SingleThen ast, Object obj){
+    
     return null;
 }
 
@@ -197,6 +236,13 @@ public Object visitSingleCase(SingleCase ast, Object obj){
 }
 
 public Object visitMultipleCaseRange(MultipleCaseRange ast, Object obj){
+    
+    if (ast.CRC2!= null) {
+      ast.CRC2.visit(this, obj);
+    } else {
+      ast.CRC1.visit(this, obj);
+      ast.CRC2.visit(this, obj);
+    }
     return null;
 }
 
@@ -205,6 +251,12 @@ public Object visitMultipleThen(MultipleThen ast, Object obj){
 }
 
 public Object visitMultipleCase(MultipleCase ast, Object obj){
+    if (ast.CC2 == null) {
+      ast.CC1.visit(this, obj);
+    } else {
+      ast.CC1.visit(this, obj);
+      ast.CC2.visit(this, obj);
+    }
     return null;
 }
 
@@ -263,9 +315,26 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
 
   public Object visitWhileCommand(WhileCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-    if (! eType.equals(StdEnvironment.booleanType))
+    if (!eType.equals(StdEnvironment.booleanType))
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
-    ast.C.visit(this, null);
+
+    if(o != null){
+      RepeatDeclaration repeat = new RepeatDeclaration(dummyPos);
+      idTable.openScope();
+      if(((RepeatCommand) o).I != null)
+        idTable.enter(((RepeatCommand) o).I.spelling, repeat);
+      else
+        idTable.enter("", repeat);
+
+      if(repeat.duplicated)
+        reporter.reportError("identifier \"%\" already declared", 
+          ((RepeatCommand) o).I.spelling, ((RepeatCommand) o).position);
+      ast.C.visit(this, null);
+      idTable.closeScope();
+    }
+    else
+      ast.C.visit(this, null);
+
     return null;
   }
 
@@ -325,6 +394,7 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     } else if (binding instanceof FuncDeclaration) {
       ast.APS.visit(this, ((FuncDeclaration) binding).FPS);
       ast.type = ((FuncDeclaration) binding).T;
+      
     } else if (binding instanceof FuncFormalParameter) {
       ast.APS.visit(this, ((FuncFormalParameter) binding).FPS);
       ast.type = ((FuncFormalParameter) binding).T;

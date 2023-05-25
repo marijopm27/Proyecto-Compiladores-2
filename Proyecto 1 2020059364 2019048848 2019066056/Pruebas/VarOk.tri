@@ -1,8 +1,3 @@
 let
 	var y : Integer
 in
-	skip;
-	put(y) 
-end
-
-! OK

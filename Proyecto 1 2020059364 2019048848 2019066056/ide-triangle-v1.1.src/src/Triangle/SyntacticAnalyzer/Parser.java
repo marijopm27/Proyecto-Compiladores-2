@@ -568,12 +568,9 @@ CaseLiteralCommand parseCaseLiteral() throws SyntaxError{
         switch(currentToken.kind){
      
         case Token.WHILE: {
-          
             acceptIt();
             WhileCommand While = whileDo(commandPos);
-
             commandAST = new RepeatCommand( While, commandPos);
-
             break;
         }
         case Token.UNTIL: {
