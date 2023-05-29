@@ -8,6 +8,8 @@
 <IntegerExpresssion>
 </IntegerExpresssion>
 <Operator value= '='>
+<BinaryOperatorDeclaration>
+</BinaryOperatorDeclaration>
 </Operator>
 </BinaryExpresssion>
 </DoWhileCommand>

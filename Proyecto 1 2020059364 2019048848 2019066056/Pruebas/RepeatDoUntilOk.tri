@@ -1,4 +1,9 @@
+let
+	var x : Integer;
+	var b : Integer
+in 
 repeat 
 do x:= x +1
 until x < 10
+end
 end

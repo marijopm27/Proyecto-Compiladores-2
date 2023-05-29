@@ -8,7 +8,7 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
  *
  * @author María José Porras Maroto
  */
-public class ForBecomesCommand extends Command{
+public class ForBecomesCommand extends Declaration{
   public Identifier I;
   public Expression E;
   

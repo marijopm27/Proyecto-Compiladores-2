@@ -12,12 +12,14 @@ public class ForBecomesAST extends Command{
     public ForBecomesCommand ForBecomes;   
     public DotDCommand E;
     public DoCommand DoC;
+    public Identifier I;
     
     public ForBecomesAST( ForBecomesCommand ForBecomesV, DotDCommand eAST, DoCommand Dovar, SourcePosition thePosition) {
         super (thePosition);
         ForBecomes = ForBecomesV;    
         E = eAST;
         DoC = Dovar;
+        I=null;
     }
     
     public Object visit(Visitor v, Object o) {

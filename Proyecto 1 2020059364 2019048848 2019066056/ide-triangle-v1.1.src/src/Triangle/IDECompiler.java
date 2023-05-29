@@ -63,7 +63,6 @@ public class IDECompiler {
         rootAST = parser.parseProgram();
         
         archivoHTML.escribir("</p>\n</html>"); //cierra el formato del html para el archivo
-        System.out.println(report.numErrors);
         if (report.numErrors == 0) {
             System.out.println("Contextual Analysis ...");
             Checker checker = new Checker(report);

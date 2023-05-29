@@ -1,1 +1,9 @@
-for x := 1 .. 10 do x:= x + 1 end
+let
+	var i : Integer;
+	var j : Integer; 
+	type x ~ Char;
+	type dia ~ Integer
+in 
+for i := 5 .. 6 do skip; skip
+end
+end

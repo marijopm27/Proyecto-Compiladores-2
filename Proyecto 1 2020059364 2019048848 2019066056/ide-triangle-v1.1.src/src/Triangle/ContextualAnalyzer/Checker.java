@@ -122,6 +122,10 @@ import Triangle.AbstractSyntaxTrees.PrivateDeclaration;
 import Triangle.AbstractSyntaxTrees.RepeatDeclaration;
 import Triangle.AbstractSyntaxTrees.WhileEndCommand;
 import Triangle.SyntacticAnalyzer.SourcePosition;
+import Triangle.ErrorReporter;
+import Triangle.StdEnvironment;
+import Triangle.AbstractSyntaxTrees.*;
+import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public final class Checker implements Visitor {
 
@@ -312,7 +316,7 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     ast.C2.visit(this, null);
     return null;
   }
-
+  //Repeat while Exp do Com end
   public Object visitWhileCommand(WhileCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (!eType.equals(StdEnvironment.booleanType))
@@ -1148,12 +1152,12 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     public Object visitThenCommandAST(ThenCommand aThis, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+   // do command
     @Override
     public Object visitDoCommandAST(DoCommand aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         aThis.C.visit(this, null);
+         return null;
     }
- // while Exp end
     @Override
     public Object visitRepeatCommand(RepeatCommand aThis, Object o) {
     aThis.WhileC.visit(this, aThis);
@@ -1166,17 +1170,42 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     
     @Override
     public Object visitRepeatUntilAST(RepeatUntilAST aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        aThis.UntilC.visit(this, aThis);
+        return null;
     }
-
+    // repeat until Exp do Com end
     @Override
     public Object visitUntilCommand(UntilCommand aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated 
+       TypeDenoter eType = (TypeDenoter) aThis.I.visit(this, null);
+        if (!eType.equals(StdEnvironment.booleanType)) {
+          reporter.reportError("Boolean expression expected here", "", aThis.I.position);
+        }
+        if(o != null){
+          RepeatDeclaration repeat = new RepeatDeclaration(dummyPos);
+          idTable.openScope();
+          if(((RepeatUntilAST) o).I == null)
+              idTable.enter("", repeat);
+          else
+              idTable.enter(((RepeatUntilAST) o).I.spelling, repeat);
+
+          if(repeat.duplicated)
+            reporter.reportError("identifier \"%\" already declared", 
+              ((RepeatUntilAST) o).I.spelling, ((RepeatUntilAST) o).position);
+
+          aThis.C.visit(this, null);
+          idTable.closeScope();
+        }
+        else
+          aThis.C.visit(this, null);
+        return null;
     }    
-    
     @Override
     public Object visitDoWhileCommand(DoWhileCommand aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+         TypeDenoter eType = (TypeDenoter) aThis.E.visit(this, null);
+        if (!eType.equals(StdEnvironment.booleanType)) {
+          reporter.reportError("Boolean expression expected here", "", aThis.E.position);
+        }
+        return null;
     }
      // Repeat do Com while Exp end
     @Override
@@ -1205,31 +1234,65 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     public Object visitVarDeclarationBecomes(VarDeclarationBecomes aThis, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
     @Override
     public Object visitDoUntilCommand(DoUntilCommand aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        TypeDenoter eType = (TypeDenoter) aThis.E.visit(this, null);
+        if (!eType.equals(StdEnvironment.booleanType)) {
+          reporter.reportError("Boolean expression expected here", "", aThis.E.position);
+        }
+        return null;
     }
-
+     //repeat do com until exp end
     @Override
     public Object visitRepeatDoUntilCommand(RepeatDoUntilAST aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        RepeatDeclaration repeat = new RepeatDeclaration(dummyPos);
+        if(aThis.I != null){
+          idTable.openScope();
+          idTable.enter(aThis.I.spelling, repeat);
+          if(repeat.duplicated)
+            reporter.reportError("identifier \"%\" already declared", aThis.I.spelling, aThis.position);
+
+          aThis.C.visit(this, null);
+          idTable.closeScope();
+        }
+        else{
+          idTable.openScope();
+          idTable.enter("", repeat);
+          aThis.C.visit(this, null);
+          idTable.closeScope();
+        }
+
+        aThis.DoUntil.visit(this, null);
+        return null;
     }
     
     
     @Override
     public Object visitForBecomesCommand(ForBecomesCommand aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       TypeDenoter eType = (TypeDenoter) aThis.E.visit(this, null);
+        if (!eType.equals(StdEnvironment.integerType))
+          reporter.reportError("Integer Expression expected here", "", aThis.E.position);
+
+        return null;
     }
 
     @Override
     public Object visitForBecomesAST(ForBecomesAST aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        aThis.ForBecomes.visit(this, null); // exp1
+        aThis.E.visit(this, null); // exp2
+        idTable.openScope(); // Se inicia el scope para el com y ids.
+        idTable.enter(aThis.ForBecomes.I.spelling, aThis.ForBecomes); // ingresa el id del for
+        if (aThis.ForBecomes.duplicated)
+          reporter.reportError("identifier \"%\" already declared", aThis.I.spelling, aThis.position);
+
+        aThis.DoC.visit(this, null); // command
+        idTable.closeScope(); // Se cierra el scope.
+        return null;
     }
 
     @Override
     public Object visitRepeatForWhile(RepeatForWhile aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
     }
 
     @Override
@@ -1238,7 +1301,11 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     }    
     @Override
     public Object visitDotDCommandAST(DotDCommand aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        TypeDenoter eType = (TypeDenoter) aThis.CLC.visit(this, null);
+        if (!eType.equals(StdEnvironment.integerType)) {
+          reporter.reportError("Integer expression expected here", "", aThis.CLC.position);
+        }
+        return null;
     }    
 
     @Override

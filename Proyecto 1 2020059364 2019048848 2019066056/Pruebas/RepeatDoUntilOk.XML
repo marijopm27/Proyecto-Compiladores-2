@@ -11,8 +11,8 @@
 <IntTypeDenoter>
 </IntTypeDenoter>
 </SequentialDeclaration>
-<RepeatCommand>
-<WhileCommand>
+<RepeatDoUntilCommand>
+<DoUntilCommand>
 <BinaryExpresssion>
 <VnameExpresssion>
 <SimpleVname>
@@ -20,33 +20,15 @@
 </Identifier>
 </SimpleVname>
 </VnameExpresssion>
-<VnameExpresssion>
-<SimpleVname>
-<Identifier>
-</Identifier>
-</SimpleVname>
-</VnameExpresssion>
-<Operator value='&gt;'>
+<IntegerExpresssion>
+</IntegerExpresssion>
+<Operator value='&lt;'>
 <BinaryOperatorDeclaration>
 </BinaryOperatorDeclaration>
 </Operator>
 </BinaryExpresssion>
+</DoUntilCommand>
 <DoCommand>
-<SequentialCommand>
-<CallCommand>
-<Identifier>
-</Identifier>
-<SingleActualParameterSequence>
-<ConstActualParameter>
-<VnameExpresssion>
-<SimpleVname>
-<Identifier>
-</Identifier>
-</SimpleVname>
-</VnameExpresssion>
-</ConstActualParameter>
-</SingleActualParameterSequence>
-</CallCommand>
 <AssingCommand>
 <SimpleVname>
 <Identifier>
@@ -61,15 +43,13 @@
 </VnameExpresssion>
 <IntegerExpresssion>
 </IntegerExpresssion>
-<Operator value= '-'>
+<Operator value= '+'>
 <BinaryOperatorDeclaration>
 </BinaryOperatorDeclaration>
 </Operator>
 </BinaryExpresssion>
 </AssingCommand>
-</SequentialCommand>
 </DoCommand>
-</WhileCommand>
-</RepeatCommand>
+</RepeatDoUntilCommand>
 </LetCommand>
 </Program>

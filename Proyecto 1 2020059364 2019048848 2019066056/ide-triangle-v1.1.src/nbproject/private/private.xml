@@ -3,6 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/gmora/OneDrive/Desktop/1%20SEMESTRE%202023/Compiladores%20E%20Intérpretes/Proyecto2/Proyecto%20Compiladores%202/Proyecto%201%202020059364%202019048848%202019066056/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/DotDCommand2.java</file>
+            <file>file:/C:/Users/gmora/OneDrive/Desktop/1%20SEMESTRE%202023/Compiladores%20E%20Intérpretes/Proyecto2/Proyecto%20Compiladores%202/Proyecto%201%202020059364%202019048848%202019066056/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/CaseRangeCommand.java</file>
+            <file>file:/C:/Users/gmora/OneDrive/Desktop/1%20SEMESTRE%202023/Compiladores%20E%20Intérpretes/Proyecto2/Proyecto%20Compiladores%202/Proyecto%201%202020059364%202019048848%202019066056/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/RepeatDoUntilAST.java</file>
+            <file>file:/C:/Users/gmora/OneDrive/Desktop/1%20SEMESTRE%202023/Compiladores%20E%20Intérpretes/Proyecto2/Proyecto%20Compiladores%202/Proyecto%201%202020059364%202019048848%202019066056/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/SingleCaseRange.java</file>
+            <file>file:/C:/Users/gmora/OneDrive/Desktop/1%20SEMESTRE%202023/Compiladores%20E%20Intérpretes/Proyecto2/Proyecto%20Compiladores%202/Proyecto%201%202020059364%202019048848%202019066056/ide-triangle-v1.1.src/src/Triangle/ContextualAnalyzer/Checker.java</file>
+            <file>file:/C:/Users/gmora/OneDrive/Desktop/1%20SEMESTRE%202023/Compiladores%20E%20Intérpretes/Proyecto2/Proyecto%20Compiladores%202/Proyecto%201%202020059364%202019048848%202019066056/ide-triangle-v1.1.src/src/Triangle/SyntacticAnalyzer/Parser.java</file>
+            <file>file:/C:/Users/gmora/OneDrive/Desktop/1%20SEMESTRE%202023/Compiladores%20E%20Intérpretes/Proyecto2/Proyecto%20Compiladores%202/Proyecto%201%202020059364%202019048848%202019066056/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/CasesCommand.java</file>
+            <file>file:/C:/Users/gmora/OneDrive/Desktop/1%20SEMESTRE%202023/Compiladores%20E%20Intérpretes/Proyecto2/Proyecto%20Compiladores%202/Proyecto%201%202020059364%202019048848%202019066056/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/UntilCommand.java</file>
+            <file>file:/C:/Users/gmora/OneDrive/Desktop/1%20SEMESTRE%202023/Compiladores%20E%20Intérpretes/Proyecto2/Proyecto%20Compiladores%202/Proyecto%201%202020059364%202019048848%202019066056/ide-triangle-v1.1.src/src/Triangle/AbstractSyntaxTrees/RepeatUntilAST.java</file>
+        </group>
     </open-files>
 </project-private>

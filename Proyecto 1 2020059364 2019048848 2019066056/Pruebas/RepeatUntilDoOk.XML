@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Program>
 <LetCommand>
-<SequentialDeclaration>
 <VarDeclaration>
 </VarDeclaration>
 <IntTypeDenoter>
 </IntTypeDenoter>
-<VarDeclaration>
-</VarDeclaration>
-<IntTypeDenoter>
-</IntTypeDenoter>
-</SequentialDeclaration>
-<RepeatCommand>
-<WhileCommand>
+<RepeatUntil>
+<UntilCommand>
 <BinaryExpresssion>
 <VnameExpresssion>
 <SimpleVname>
@@ -20,33 +14,14 @@
 </Identifier>
 </SimpleVname>
 </VnameExpresssion>
-<VnameExpresssion>
-<SimpleVname>
-<Identifier>
-</Identifier>
-</SimpleVname>
-</VnameExpresssion>
-<Operator value='&gt;'>
+<IntegerExpresssion>
+</IntegerExpresssion>
+<Operator value='&lt;'>
 <BinaryOperatorDeclaration>
 </BinaryOperatorDeclaration>
 </Operator>
 </BinaryExpresssion>
 <DoCommand>
-<SequentialCommand>
-<CallCommand>
-<Identifier>
-</Identifier>
-<SingleActualParameterSequence>
-<ConstActualParameter>
-<VnameExpresssion>
-<SimpleVname>
-<Identifier>
-</Identifier>
-</SimpleVname>
-</VnameExpresssion>
-</ConstActualParameter>
-</SingleActualParameterSequence>
-</CallCommand>
 <AssingCommand>
 <SimpleVname>
 <Identifier>
@@ -61,15 +36,14 @@
 </VnameExpresssion>
 <IntegerExpresssion>
 </IntegerExpresssion>
-<Operator value= '-'>
+<Operator value= '+'>
 <BinaryOperatorDeclaration>
 </BinaryOperatorDeclaration>
 </Operator>
 </BinaryExpresssion>
 </AssingCommand>
-</SequentialCommand>
 </DoCommand>
-</WhileCommand>
-</RepeatCommand>
+</UntilCommand>
+</RepeatUntil>
 </LetCommand>
 </Program>
