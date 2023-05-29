@@ -1,9 +1,5 @@
 let
-	var i : Integer;
-	var j : Integer; 
-	type x ~ Char;
-	type dia ~ Integer
+	var k : Integer
 in 
-for i := 5 .. 6 do skip; skip
-end
+	for i := 5 .. k do k := k + 1 end
 end

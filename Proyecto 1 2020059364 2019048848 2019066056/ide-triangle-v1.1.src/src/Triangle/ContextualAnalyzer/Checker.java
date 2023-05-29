@@ -1275,12 +1275,13 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
 
         return null;
     }
-
+// for Id from Exp1 to Exp2 do Com end
     @Override
     public Object visitForBecomesAST(ForBecomesAST aThis, Object o) {
         aThis.ForBecomes.visit(this, null); // exp1
         aThis.E.visit(this, null); // exp2
         idTable.openScope(); // Se inicia el scope para el com y ids.
+        
         idTable.enter(aThis.ForBecomes.I.spelling, aThis.ForBecomes); // ingresa el id del for
         if (aThis.ForBecomes.duplicated)
           reporter.reportError("identifier \"%\" already declared", aThis.I.spelling, aThis.position);
@@ -1292,7 +1293,22 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
 
     @Override
     public Object visitRepeatForWhile(RepeatForWhile aThis, Object o) {
-        return null;
+    //loopDeclaration loop = new loopDeclaration(dummyPos);
+    aThis.ForBecomes.visit(this, null); // from exp1
+    aThis.E.visit(this, null); // To exp2
+
+    idTable.openScope(); // Se inicia el scope, para los id y el com.
+   
+
+    idTable.enter(aThis.ForBecomes.I.spelling, aThis.ForBecomes); // ingresa el id del for
+    if (aThis.ForBecomes.duplicated)
+      reporter.reportError("identifier \"%\" already declared", aThis.I.spelling, aThis.position);
+
+    aThis.whileC.E.visit(this, null);
+    aThis.whileC.C.visit(this, null);
+    //aThis.whileC.visit(this, null); // while exp do command (exp3)
+    idTable.closeScope(); // Se cierra el scope.
+    return null;
     }
 
     @Override
