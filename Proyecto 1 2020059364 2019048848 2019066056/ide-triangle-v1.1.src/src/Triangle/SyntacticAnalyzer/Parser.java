@@ -93,6 +93,7 @@ import Triangle.AbstractSyntaxTrees.MultipleCase;
 import Triangle.AbstractSyntaxTrees.SingleCase;
 import Triangle.AbstractSyntaxTrees.CaseLiterals;
 import Triangle.AbstractSyntaxTrees.CaseRangeCommand;
+import Triangle.AbstractSyntaxTrees.CompoundSingleDeclaration;
 import Triangle.AbstractSyntaxTrees.SingleCaseRange;
 import Triangle.AbstractSyntaxTrees.MultipleCaseRange;
 import Triangle.AbstractSyntaxTrees.RepeatCommand;
@@ -1055,8 +1056,9 @@ CaseLiteralCommand parseCaseLiteral() throws SyntaxError{
           case Token.PROC:
           case Token.FUNC:
           case Token.TYPE:
-              declarationAST = parseSingleDeclaration();
+              Declaration dAST = parseSingleDeclaration();
               finish(position);
+              declarationAST = new CompoundSingleDeclaration(dAST, position);
               break;
           case Token.REC:
               acceptIt();
@@ -1067,12 +1069,12 @@ CaseLiteralCommand parseCaseLiteral() throws SyntaxError{
               break;
           case Token.PRIVATE:
               acceptIt();
-              Declaration dAST = parseDeclaration();
+              Declaration dAST1 = parseDeclaration();
               accept(Token.IN);
               Declaration dAST2 = parseDeclaration();
               accept(Token.END);
               finish(position);
-              declarationAST = new PrivateDeclaration(dAST, dAST2, position);
+              declarationAST = new PrivateDeclaration(dAST1, dAST2, position);
               break;
           default:
               syntacticError("\"%\" cannot start a declaration.",

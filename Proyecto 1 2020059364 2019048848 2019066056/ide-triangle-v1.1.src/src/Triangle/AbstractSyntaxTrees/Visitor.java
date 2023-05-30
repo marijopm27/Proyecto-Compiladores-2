@@ -142,5 +142,6 @@ public interface Visitor {
   public Object visitVarDeclarationBecomes(VarDeclaration ast, Object o);
   public Object visitSequentialDeclarationProcFuncs(SequentialDeclarationProcFuncs aThis, Object o);
   public Object visitRecDeclaration(RecDeclaration aThis, Object o);
+  public Object visitCompoundSingleDeclaration(CompoundSingleDeclaration aThis, Object o);
 
 }
