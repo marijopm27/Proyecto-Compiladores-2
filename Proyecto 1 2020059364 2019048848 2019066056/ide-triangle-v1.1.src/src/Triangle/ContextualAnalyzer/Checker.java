@@ -549,8 +549,16 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
   }
 
   public Object visitPrivateDeclaration(PrivateDeclaration ast, Object o) {
+    // Se agrega a la pila publica
+    idTable.pushPublic();
     ast.D1.visit(this, null);
+
+    // Se agrega unicamente a la pila privado
+    idTable.pushPrivate();
     ast.D2.visit(this, null);
+
+    // Se cierra la pila privada
+    idTable.closePrivate();
     return null;
   }  
   // Array Aggregates
@@ -1148,9 +1156,11 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     }
     return null;
   }
+    //if Exp then Com1 ( | Expi then Comi )* else Com2 end
     @Override
     public Object visitThenCommandAST(ThenCommand aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        aThis.C.visit(this, null);
+        return null;
     }
    // do command
     @Override
@@ -1232,7 +1242,13 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
 
     @Override
     public Object visitVarDeclarationBecomes(VarDeclarationBecomes aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        aThis.E = (TypeDenoter) aThis.E.visit(this, null);
+        idTable.enter(aThis.I.spelling, aThis);
+        if (aThis.duplicated)
+          reporter.reportError("identifier \"%\" already declared",
+              aThis.I.spelling, aThis.position);
+
+        return null;
     }
     @Override
     public Object visitDoUntilCommand(DoUntilCommand aThis, Object o) {
@@ -1290,16 +1306,13 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
         idTable.closeScope(); // Se cierra el scope.
         return null;
     }
-
+     // for Id from Exp1 to Exp2 while Exp3 do Com end
     @Override
     public Object visitRepeatForWhile(RepeatForWhile aThis, Object o) {
-    //loopDeclaration loop = new loopDeclaration(dummyPos);
     aThis.ForBecomes.visit(this, null); // from exp1
     aThis.E.visit(this, null); // To exp2
 
     idTable.openScope(); // Se inicia el scope, para los id y el com.
-   
-
     idTable.enter(aThis.ForBecomes.I.spelling, aThis.ForBecomes); // ingresa el id del for
     if (aThis.ForBecomes.duplicated)
       reporter.reportError("identifier \"%\" already declared", aThis.I.spelling, aThis.position);
@@ -1310,10 +1323,22 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     idTable.closeScope(); // Se cierra el scope.
     return null;
     }
-
+    // Autores: Gabriel Mora
+  // for Id from Exp1 to Exp2 until Exp3 do Com end
     @Override
     public Object visitRepeatForUntil(RepeatForUntil aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        aThis.ForBecomes.visit(this, null); // from exp1
+        aThis.E.visit(this, null); // To exp2
+        idTable.openScope(); // Se inicia el scope para los id y el com.
+      
+
+        idTable.enter(aThis.ForBecomes.I.spelling, aThis.ForBecomes); // ingresa el id del for
+        if (aThis.ForBecomes.duplicated)
+          reporter.reportError("identifier \"%\" already declared", aThis.I.spelling, aThis.position);
+
+        aThis.UntilC.visit(this, null); // until exp do command (exp3)
+        idTable.closeScope(); // Se cierra el scope.
+        return null;
     }    
     @Override
     public Object visitDotDCommandAST(DotDCommand aThis, Object o) {

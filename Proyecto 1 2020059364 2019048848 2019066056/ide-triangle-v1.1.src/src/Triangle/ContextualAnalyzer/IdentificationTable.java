@@ -16,11 +16,14 @@ package Triangle.ContextualAnalyzer;
 
 import Triangle.AbstractSyntaxTrees.Declaration;
 import Triangle.AbstractSyntaxTrees.RepeatDeclaration;
+import java.util.Stack;
 
 public final class IdentificationTable {
 
   private int level;
   private IdEntry latest;
+  private Stack<IdEntry> publicStack = new Stack<>();
+  private Stack<IdEntry> privateStack = new Stack<>();
 
   public IdentificationTable () {
     level = 0;
@@ -122,6 +125,28 @@ public final class IdentificationTable {
     }
 
     return present;
+  }
+  
+  public void pushPublic() {
+    IdEntry last = this.latest;
+    publicStack.push(last);
+  }
+
+
+  public void pushPrivate() {
+    IdEntry last = this.latest;
+    privateStack.push(last);
+  }
+
+
+  public void closePrivate() {
+    IdEntry entrada = this.latest;
+    IdEntry lastPub = publicStack.pop();
+    IdEntry lastPriv = privateStack.pop();
+    while (!(entrada.previous == lastPriv)) {
+      entrada = entrada.previous;
+    }
+    entrada.previous = lastPub;
   }
 
 }

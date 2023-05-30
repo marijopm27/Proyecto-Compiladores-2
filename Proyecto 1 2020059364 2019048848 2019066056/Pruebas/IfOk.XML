@@ -1,25 +1,127 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Program>
+<LetCommand>
+<CompoundSingleDeclaration>
+<VarDeclaration>
+<IntTypeDenoter>
+</IntTypeDenoter>
+</VarDeclaration>
+</CompoundSingleDeclaration>
+<SequentialCommand>
+<CallCommand>
+<Identifier value='getint'>
+</Identifier>
+<SingleActualParameterSequence>
+<VarActualParameter>
+<SimpleVname>
+<Identifier value='a'>
+</Identifier>
+</SimpleVname>
+</VarActualParameter>
+</SingleActualParameterSequence>
+</CallCommand>
 <IfCommand>
-<BinaryExpresssion>
-<IntegerExpresssion>
-</IntegerExpresssion>
-<IntegerExpresssion>
-</IntegerExpresssion>
-<Operator value= '='>
+<BinaryExpression>
+<VnameExpression>
+<SimpleVname>
+<Identifier value='a'>
+</Identifier>
+</SimpleVname>
+</VnameExpression>
+<Operator value='&gt;'>
+<BinaryOperatorDeclaration>
+</BinaryOperatorDeclaration>
 </Operator>
-</BinaryExpresssion>
+<IntegerExpression>
+<IntegerLiteral value= '2'>
+</IntegerLiteral>
+</IntegerExpression>
+</BinaryExpression>
 <CallCommand>
-<Identifier>
+<Identifier value='put'>
 </Identifier>
-<EmptyActualParameterSequence>
-</EmptyActualParameterSequence>
-</CallCommand>
-<CallCommand>
-<Identifier>
-</Identifier>
-<EmptyActualParameterSequence>
-</EmptyActualParameterSequence>
+<SingleActualParameterSequence>
+<ConstActualParameter>
+<CharacterExpression>
+<CharacterLiteral value='2'>
+</CharacterLiteral>
+</CharacterExpression>
+</ConstActualParameter>
+</SingleActualParameterSequence>
 </CallCommand>
 <IfCommand>
+<BinaryExpression>
+<VnameExpression>
+<SimpleVname>
+<Identifier value='a'>
+</Identifier>
+</SimpleVname>
+</VnameExpression>
+<Operator value= '='>
+<BinaryOperatorDeclaration>
+</BinaryOperatorDeclaration>
+</Operator>
+<IntegerExpression>
+<IntegerLiteral value= '1'>
+</IntegerLiteral>
+</IntegerExpression>
+</BinaryExpression>
+<CallCommand>
+<Identifier value='put'>
+</Identifier>
+<SingleActualParameterSequence>
+<ConstActualParameter>
+<CharacterExpression>
+<CharacterLiteral value='1'>
+</CharacterLiteral>
+</CharacterExpression>
+</ConstActualParameter>
+</SingleActualParameterSequence>
+</CallCommand>
+<IfCommand>
+<BinaryExpression>
+<VnameExpression>
+<SimpleVname>
+<Identifier value='a'>
+</Identifier>
+</SimpleVname>
+</VnameExpression>
+<Operator value= '='>
+<BinaryOperatorDeclaration>
+</BinaryOperatorDeclaration>
+</Operator>
+<IntegerExpression>
+<IntegerLiteral value= '0'>
+</IntegerLiteral>
+</IntegerExpression>
+</BinaryExpression>
+<CallCommand>
+<Identifier value='put'>
+</Identifier>
+<SingleActualParameterSequence>
+<ConstActualParameter>
+<CharacterExpression>
+<CharacterLiteral value='0'>
+</CharacterLiteral>
+</CharacterExpression>
+</ConstActualParameter>
+</SingleActualParameterSequence>
+</CallCommand>
+<CallCommand>
+<Identifier value='put'>
+</Identifier>
+<SingleActualParameterSequence>
+<ConstActualParameter>
+<CharacterExpression>
+<CharacterLiteral value='n'>
+</CharacterLiteral>
+</CharacterExpression>
+</ConstActualParameter>
+</SingleActualParameterSequence>
+</CallCommand>
+</IfCommand>
+</IfCommand>
+</IfCommand>
+</SequentialCommand>
+</LetCommand>
 </Program>

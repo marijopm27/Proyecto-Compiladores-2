@@ -1,10 +1,22 @@
 let
+
   private
-    var x := Char;
-    var y := Integer
+    const a ~ 1
   in
-	proc z() ~ put('z') end
+
+    private
+      const b ~ a + 1 ! a visible aquí­
+    in
+      const c ~ b + a ! a y b visibles aquí
+    end
+    ;
+    const d ~ a + c ! a y c visibles aquí; b no visible aquí
+
   end
+
 in
-  z()
+
+  putint(d) ! d visible aquí­
+
 end
+

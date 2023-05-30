@@ -1,3 +1,12 @@
 let
-	var y : Integer
+	var x : Integer
 in
+putint (x); ! debe imprimir 1
+
+  puteol ();
+
+  x := x + 21 ; ! variable puede ser asignada
+
+  putint (x)  ! debe imprimir 22
+
+end
