@@ -1081,32 +1081,6 @@ CaseLiteralCommand parseCaseLiteral() throws SyntaxError{
       }
       return declarationAST;
    }
-  
-  //Autor: Gabriel Mora
-  
-  Declaration parseProcFuncs() throws SyntaxError {
-    Declaration declarationAST = null;
-    SourcePosition position = new SourcePosition();
-    start(position);
-    
-    declarationAST = parseProcFunc();
-    
-    if (currentToken.kind != Token.BAR) {
-        syntacticError("| expected here.", "");
-    }
-    
-    while (currentToken.kind == Token.BAR) {
-        acceptIt();
-        Declaration dAST2 = parseProcFunc();
-        finish(position);
-        declarationAST = new SequentialDeclaration(declarationAST, dAST2, position);
-    }
-    
-    return declarationAST;
-}
-
-  
-  
   //Autor: Celina Madrigal Murillo
   
   
@@ -1130,7 +1104,7 @@ CaseLiteralCommand parseCaseLiteral() throws SyntaxError{
             break;
 
         case Token.FUNC:
-            accept(Token.FUNC);
+            acceptIt();
             Identifier identifierAST = parseIdentifier();
             accept(Token.LPAREN);
             FormalParameterSequence fpsAST = parseFormalParameterSequence();
@@ -1150,6 +1124,30 @@ CaseLiteralCommand parseCaseLiteral() throws SyntaxError{
 
     return procFuncAST;
 }
+  //Autor: Gabriel Mora
+  
+  Declaration parseProcFuncs() throws SyntaxError {
+    Declaration declarationAST = null;
+    SourcePosition position = new SourcePosition();
+    start(position);
+    
+    declarationAST = parseProcFunc();
+    
+    if(currentToken.kind == Token.BAR){
+          while(currentToken.kind == Token.BAR){
+              acceptIt();
+              Declaration dAST2 = parseProcFunc();
+              finish(position);
+              declarationAST = new SequentialDeclaration(declarationAST,
+                               dAST2, position);
+          }
+      }else{
+          syntacticError("| expected here.","");
+      }
+    return declarationAST;
+}
+
+  
   Declaration parseSingleDeclaration() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error
 

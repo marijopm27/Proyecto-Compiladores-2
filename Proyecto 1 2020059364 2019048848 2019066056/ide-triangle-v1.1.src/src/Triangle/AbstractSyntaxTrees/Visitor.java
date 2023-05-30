@@ -140,6 +140,7 @@ public interface Visitor {
   public Object visitSingleThen(SingleThen aThis, Object o);
   public Object visitMultipleThen(MultipleThen aThis, Object o);
   public Object visitVarDeclarationBecomes(VarDeclaration ast, Object o);
+  public Object visitSequentialDeclarationProcFuncs(SequentialDeclarationProcFuncs aThis, Object o);
   public Object visitRecDeclaration(RecDeclaration aThis, Object o);
 
 }

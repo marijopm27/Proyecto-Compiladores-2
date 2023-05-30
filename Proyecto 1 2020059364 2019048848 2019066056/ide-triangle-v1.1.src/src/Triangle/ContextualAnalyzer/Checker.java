@@ -279,8 +279,10 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
   public Object visitCallCommand(CallCommand ast, Object o) {
 
     Declaration binding = (Declaration) ast.I.visit(this, null);
-    if (binding == null)
+    if (binding == null){
+        System.out.println(1);
       reportUndeclared(ast.I);
+    }
     else if (binding instanceof ProcDeclaration) {
       ast.APS.visit(this, ((ProcDeclaration) binding).FPS);
     } else if (binding instanceof ProcFormalParameter) {
@@ -372,8 +374,10 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
     Declaration binding = (Declaration) ast.O.visit(this, null);
 
-    if (binding == null)
+    if (binding == null){
+      System.out.println(2);  
       reportUndeclared(ast.O);
+    }
     else {
       if (! (binding instanceof BinaryOperatorDeclaration))
         reporter.reportError ("\"%\" is not a binary operator",
@@ -398,6 +402,7 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
   public Object visitCallExpression(CallExpression ast, Object o) {
     Declaration binding = (Declaration) ast.I.visit(this, null);
     if (binding == null) {
+        System.out.println(3);
       reportUndeclared(ast.I);
       ast.type = StdEnvironment.errorType;
     } else if (binding instanceof FuncDeclaration) {
@@ -460,6 +465,7 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     Declaration binding = (Declaration) ast.O.visit(this, null);
     if (binding == null) {
+        System.out.println(4);
       reportUndeclared(ast.O);
       ast.type = StdEnvironment.errorType;
     } else if (! (binding instanceof UnaryOperatorDeclaration))
@@ -675,13 +681,14 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
   public Object visitConstActualParameter(ConstActualParameter ast, Object o) {
     FormalParameter fp = (FormalParameter) o;
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-
-    if (! (fp instanceof ConstFormalParameter))
-      reporter.reportError ("const actual parameter not expected here", "",
-                            ast.position);
-    else if (! eType.equals(((ConstFormalParameter) fp).T))
-      reporter.reportError ("wrong type for const actual parameter", "",
-                            ast.E.position);
+    if (!(fp instanceof ConstFormalParameter))
+      reporter.reportError("const actual parameter not expected here", "",
+          ast.position);
+    else if (eType instanceof ArrayTypeDenoter)
+      return null;
+    else if (!eType.equals(((ConstFormalParameter) fp).T))
+      reporter.reportError("wrong type for const actual parameter", "",
+          ast.E.position);
     return null;
   }
 
@@ -689,8 +696,10 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     FormalParameter fp = (FormalParameter) o;
 
     Declaration binding = (Declaration) ast.I.visit(this, null);
-    if (binding == null)
+    if (binding == null){
+        System.out.println(5);
       reportUndeclared (ast.I);
+    }
     else if (! (binding instanceof FuncDeclaration ||
                 binding instanceof FuncFormalParameter))
       reporter.reportError ("\"%\" is not a function identifier",
@@ -722,8 +731,10 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     FormalParameter fp = (FormalParameter) o;
 
     Declaration binding = (Declaration) ast.I.visit(this, null);
-    if (binding == null)
+    if (binding == null){
+        System.out.println(6);
       reportUndeclared (ast.I);
+    }
     else if (! (binding instanceof ProcDeclaration ||
                 binding instanceof ProcFormalParameter))
       reporter.reportError ("\"%\" is not a procedure identifier",
@@ -819,6 +830,7 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
   public Object visitSimpleTypeDenoter(SimpleTypeDenoter ast, Object o) {
     Declaration binding = (Declaration) ast.I.visit(this, null);
     if (binding == null) {
+        System.out.println(7);
       reportUndeclared (ast.I);
       return StdEnvironment.errorType;
     } else if (! (binding instanceof TypeDeclaration)) {
@@ -912,8 +924,10 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     ast.variable = false;
     ast.type = StdEnvironment.errorType;
     Declaration binding = (Declaration) ast.I.visit(this, null);
-    if (binding == null)
+    if (binding == null){
+        System.out.println(8);
       reportUndeclared(ast.I);
+    }
     else
       if (binding instanceof ConstDeclaration) {
         ast.type = ((ConstDeclaration) binding).E.type;
@@ -995,6 +1009,8 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
   // has not been declared.
 
   private void reportUndeclared (Terminal leaf) {
+      System.out.println("Ini");
+     
     reporter.reportError("\"%\" is not declared", leaf.spelling, leaf.position);
   }
 
@@ -1390,5 +1406,107 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
               ast.I.spelling, ast.position);
 
         return null;
+    }
+    
+    /*
+    private void agregarFunc(FuncDeclaration aThis) {
+
+    aThis.T = (TypeDenoter) aThis.T.visit(this, null);
+
+    // Agregar a la tabla
+    idTable.enter(aThis.I.spelling, aThis); // permits recursion
+
+    // Determinar si el identificador esta repetido
+    if (aThis.duplicated) {
+      reporter.reportError("identifier \"%\" already declared",
+          aThis.I.spelling, aThis.position);
+    }
+
+    idTable.openScope();
+
+    aThis.FPS.visit(this, null);
+
+    idTable.closeScope();
+
+    // Colocar como visitado
+    aThis.visited = true;
+  }
+    
+  private void agregarProc(ProcDeclaration aThis) {
+
+    // Agregar a la tabla
+    idTable.enter(aThis.I.spelling, aThis);
+
+    // Determinar si el identificador esta repetido
+    if (aThis.duplicated) {
+      reporter.reportError("identifier \"%\" already declared",
+          aThis.I.spelling, aThis.position);
+    }
+
+    idTable.openScope();
+
+    aThis.FPS.visit(this, null);
+    // aThis.C.visit(this, null); Bug
+
+    idTable.closeScope();
+
+    // Colocar como visitado
+    aThis.visited = true;
+  }
+  
+  private void visitarProcFuncs(SequentialDeclarationProcFuncs aThis) {
+    if (aThis.D2 instanceof FuncDeclaration) {
+      agregarFunc((FuncDeclaration) aThis.D2);
+      aThis.D1.visit(this, null);
+    } else {
+      if (aThis.D2 instanceof ProcDeclaration) {
+        agregarProc((ProcDeclaration) aThis.D2);
+        aThis.D1.visit(this, null);
+      }
+    }
+  }
+  @Override
+  public Object visitSequentialDeclarationProcFuncs(SequentialDeclarationProcFuncs aThis, Object o) {
+
+    // Caso base para la recursion
+    if (aThis.D2 instanceof ProcDeclaration && ((ProcDeclaration) aThis.D2).visited) {
+      return null;
+    }
+    // Caso base para la recursion
+    if (aThis.D2 instanceof FuncDeclaration && ((FuncDeclaration) aThis.D2).visited) {
+      return null;
+    }
+
+    // Determina si es un proc funcs
+    if (aThis.D1 instanceof SequentialDeclarationProcFuncs) {
+      visitarProcFuncs(aThis);
+    }
+    // Otros casos
+    else {
+      if (aThis.D1 instanceof ProcDeclaration) {
+        agregarProc((ProcDeclaration) aThis.D1);
+      } else {
+        if (aThis.D1 instanceof FuncDeclaration) {
+          agregarFunc((FuncDeclaration) aThis.D1);
+        }
+      }
+      if (aThis.D2 instanceof ProcDeclaration) {
+        agregarProc((ProcDeclaration) aThis.D2);
+      } else {
+        if (aThis.D2 instanceof FuncDeclaration) {
+          agregarFunc((FuncDeclaration) aThis.D2);
+        }
+      }
+    }
+    // Vistar los hijos
+    aThis.D1.visit(this, null);
+    aThis.D2.visit(this, null);
+    return null;
+  }
+  */
+
+    @Override
+    public Object visitSequentialDeclarationProcFuncs(SequentialDeclarationProcFuncs aThis, Object o) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -104,6 +104,7 @@ import Triangle.AbstractSyntaxTrees.DotDCommand2;
 import Triangle.AbstractSyntaxTrees.DotDCommandLiteral;
 import Triangle.AbstractSyntaxTrees.PrivateDeclaration;
 import Triangle.AbstractSyntaxTrees.RecDeclaration;
+import Triangle.AbstractSyntaxTrees.SequentialDeclarationProcFuncs;
 import Triangle.AbstractSyntaxTrees.WhileEndCommand;
 import Triangle.CodeGenerator.Field;
 import Triangle.CodeGenerator.KnownAddress;
@@ -269,6 +270,7 @@ public Object visitBarCommandCaseRange(BarCommandCaseRange ast, Object obj){
       return(null);
   }
   
+    @Override
   public Object visitCallExpression(CallExpression ast, Object o) { 
       ast.I.visit(this, null);
       ast.APS.visit(this, null);
@@ -872,6 +874,7 @@ public Object visitBarCommandCaseRange(BarCommandCaseRange ast, Object obj){
         return(null);
     }
     
+    
     @Override
     public Object visitRepeatTimesCommand(RepeatTimesCommand aThis, Object o) {
         
@@ -896,6 +899,11 @@ public Object visitBarCommandCaseRange(BarCommandCaseRange ast, Object obj){
 
     @Override
     public Object visitRecDeclaration(RecDeclaration aThis, Object o) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Object visitSequentialDeclarationProcFuncs(SequentialDeclarationProcFuncs aThis, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
