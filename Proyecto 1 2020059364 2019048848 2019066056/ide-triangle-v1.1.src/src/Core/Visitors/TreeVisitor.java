@@ -617,7 +617,7 @@ public class TreeVisitor implements Visitor {
 
     @Override
     public Object visitVarDeclarationBecomes(VarDeclarationBecomes aThis, Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return(createBinary("Variable Declaration", aThis.I, aThis.E));
     }
      @Override
     public Object visitDoUntilCommand(DoUntilCommand aThis, Object o) {
