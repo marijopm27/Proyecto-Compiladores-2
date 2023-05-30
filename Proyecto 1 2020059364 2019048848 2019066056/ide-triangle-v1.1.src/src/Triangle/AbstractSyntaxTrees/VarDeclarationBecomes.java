@@ -16,6 +16,14 @@ public class VarDeclarationBecomes extends Declaration{
     I = iAST;
     E = eAST;
   }
+  
+  public VarDeclarationBecomes (Identifier iAST, Expression eAST,
+                         SourcePosition thePosition) {
+    super (thePosition);
+    I = iAST;
+    Ex = eAST;
+  }
+
 
   public Object visit(Visitor v, Object o) {
     return v.visitVarDeclarationBecomes(this, o);
@@ -23,6 +31,7 @@ public class VarDeclarationBecomes extends Declaration{
 
   public Identifier I;
   public TypeDenoter E;
+  public Expression Ex;
 }
     
 

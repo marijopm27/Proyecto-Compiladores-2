@@ -110,6 +110,7 @@ import Triangle.AbstractSyntaxTrees.DotDCommand;
 import Triangle.AbstractSyntaxTrees.DotDCommand2;
 import Triangle.AbstractSyntaxTrees.PrivateDeclaration;
 import Triangle.AbstractSyntaxTrees.DotDCommandLiteral;
+import Triangle.AbstractSyntaxTrees.RecDeclaration;
 
 public class Parser {
 
@@ -1062,6 +1063,7 @@ CaseLiteralCommand parseCaseLiteral() throws SyntaxError{
               declarationAST = parseProcFuncs();
               accept(Token.END);
               finish(position);
+              declarationAST = new RecDeclaration(declarationAST, position);
               break;
           case Token.PRIVATE:
               acceptIt();
@@ -1172,14 +1174,24 @@ CaseLiteralCommand parseCaseLiteral() throws SyntaxError{
       {
         acceptIt();
         Identifier iAST = parseIdentifier();
-        if(currentToken.kind == Token.COLON ||currentToken.kind == Token.BECOMES ){
-            acceptIt();
-            TypeDenoter tAST = parseTypeDenoter();
-            finish(declarationPos);
-            declarationAST = new VarDeclaration(iAST, tAST, declarationPos);   
-        }
-        else{
-            syntacticError("Expected ':' or ':='", currentToken.spelling);
+        switch(currentToken.kind){
+            case Token.COLON: {
+                accept(Token.COLON);
+                TypeDenoter tAST = parseTypeDenoter();
+                finish(declarationPos);
+                declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
+                break;
+            }
+            case Token.BECOMES:{
+                accept(Token.BECOMES);
+                Expression eAST = parseExpression();
+                finish(declarationPos);
+                declarationAST = new VarDeclarationBecomes(iAST, eAST, declarationPos);
+                break;
+            }
+            default:{
+                syntacticError("Expected ':' or 'init' after the identifier", currentToken.spelling);
+            }
         }
       }
       break;

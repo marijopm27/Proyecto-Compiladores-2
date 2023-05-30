@@ -139,5 +139,7 @@ public interface Visitor {
   public Object visitThenCommandAST(ThenCommand aThis, Object o);
   public Object visitSingleThen(SingleThen aThis, Object o);
   public Object visitMultipleThen(MultipleThen aThis, Object o);
+  public Object visitVarDeclarationBecomes(VarDeclaration ast, Object o);
+  public Object visitRecDeclaration(RecDeclaration aThis, Object o);
 
 }

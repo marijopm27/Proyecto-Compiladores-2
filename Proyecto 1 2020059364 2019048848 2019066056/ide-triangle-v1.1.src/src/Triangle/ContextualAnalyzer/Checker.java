@@ -1242,8 +1242,15 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
 
     @Override
     public Object visitVarDeclarationBecomes(VarDeclarationBecomes aThis, Object o) {
-        aThis.E = (TypeDenoter) aThis.E.visit(this, null);
+         TypeDenoter eType = (TypeDenoter) aThis.Ex.visit(this, null);
+
+        // El tipo de dato del identificador es el de la expresion
+        aThis.E = eType;
+
+        // Ingresar el identificador a la tabla
         idTable.enter(aThis.I.spelling, aThis);
+
+        // Determinar si el identificador se encuentra duplicado
         if (aThis.duplicated)
           reporter.reportError("identifier \"%\" already declared",
               aThis.I.spelling, aThis.position);
@@ -1352,5 +1359,22 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
     @Override
     public Object visitDotDCommandLiteral(DotDCommandLiteral aThis, Object o) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Object visitRecDeclaration(RecDeclaration aThis, Object o) {
+          aThis.dAST.visit(this, null);
+    return null;
+    }
+//verificar
+    @Override
+    public Object visitVarDeclarationBecomes(VarDeclaration ast, Object o) {
+        ast.T = (TypeDenoter) ast.T.visit(this, null);
+        idTable.enter(ast.I.spelling, ast);
+        if (ast.duplicated)
+          reporter.reportError("identifier \"%\" already declared",
+              ast.I.spelling, ast.position);
+
+        return null;
     }
 }
