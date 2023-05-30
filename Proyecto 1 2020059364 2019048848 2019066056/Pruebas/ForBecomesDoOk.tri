@@ -1,5 +1,7 @@
 let
-	var k : Integer
+	var lista : array 5 of Integer ! ya está implementado. Puntos de obsequio.
 in 
-	for i := 5 .. k do k := k + 1 end
+	skip 
 end
+
+! OK

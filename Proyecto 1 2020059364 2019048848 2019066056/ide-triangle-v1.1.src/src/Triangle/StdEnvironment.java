@@ -27,7 +27,7 @@ public final class StdEnvironment {
   // These are small ASTs representing standard types.
 
   public static TypeDenoter
-    booleanType, charType, integerType, anyType, errorType;
+    booleanType, charType, integerType, anyType, arrayTypeDenoter,errorType;
 
   public static TypeDeclaration
     booleanDecl, charDecl, integerDecl;

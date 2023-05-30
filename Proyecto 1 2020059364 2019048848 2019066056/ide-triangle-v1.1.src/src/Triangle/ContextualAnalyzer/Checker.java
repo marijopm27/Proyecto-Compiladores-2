@@ -236,6 +236,7 @@ public Object visitSequentialCases(SequentialCases ast, Object obj){
 }
 
 public Object visitSingleCase(SingleCase ast, Object obj){
+     ast.CC.visit(this, obj);
     return null;
 }
 
@@ -356,8 +357,12 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
   public Object visitArrayExpression(ArrayExpression ast, Object o) {
     TypeDenoter elemType = (TypeDenoter) ast.AA.visit(this, null);
     IntegerLiteral il = new IntegerLiteral(new Integer(ast.AA.elemCount).toString(),
-                                           ast.position);
+        ast.position);
+    if (!(elemType instanceof IntTypeDenoter) && !(elemType instanceof CharTypeDenoter)) {
+      reporter.reportError("Int or char Array expected here", "", ast.position);
+    }
     ast.type = new ArrayTypeDenoter(il, elemType, ast.position);
+    StdEnvironment.arrayTypeDenoter = new ArrayTypeDenoter(il, elemType, ast.position);
     return ast.type;
   }
 
@@ -922,7 +927,16 @@ public Object visitMultipleCase(MultipleCase ast, Object obj){
       } else if (binding instanceof VarFormalParameter) {
         ast.type = ((VarFormalParameter) binding).T;
         ast.variable = true;
-      } else
+      } else if (binding instanceof VarDeclarationBecomes) { 
+        ast.type = ((VarDeclarationBecomes) binding).E;
+        ast.variable = true; // Se agrega como una variable
+    } else if (binding instanceof ForBecomesCommand) {
+        ast.type = ((ForBecomesCommand) binding).E.type;
+        ast.variable = true; // Se agrega como una variable
+      
+      
+      
+    }else
         reporter.reportError ("\"%\" is not a const or var identifier",
                               ast.I.spelling, ast.I.position);
     return ast.type;
