@@ -72,6 +72,7 @@ public final class Scanner {
   // scanSeparator skips a single separator.
 
   private void scanSeparator() {
+      //Comentarios en color verde
     String comentario = " <font style='padding-left:1em' color=\"#50C878\"><tt> ! ";
     switch (currentChar) {
     case '!':
